@@ -6,6 +6,7 @@ h2{
 }
 .box-area{
     width: 930px;
+    padding: 50px;
 }
 
 .img{
@@ -65,6 +66,7 @@ span{
 @media only screen and (max-width:768px) {
     .box-area{
         margin: 0px 10px;
+        padding: 10px;
     }
     .left-box{
        height: 0px !important;
