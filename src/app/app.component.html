@@ -1,1 +1,48 @@
-<router-outlet></router-outlet>
+<section *ngIf="service.isLoggedIn()">
+
+    <mat-toolbar color="primary" class="px-2">
+      <button (click)="toggleSidenav()" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="example-spacer"></span>
+      <div class="user-profile d-flex px-5">
+        <img src="../assets/user.png" class="iconimg" alt="" [matMenuTriggerFor]="menu">
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item><i class="fa-solid fa-user"></i> {{user.UserName}}</button>
+          <button mat-menu-item (click)="logout()"><i class="fa-solid fa-right-from-bracket" ></i> logout</button>
+        </mat-menu>
+      </div>
+    </mat-toolbar>
+  
+  
+  <mat-sidenav-container>
+    <mat-sidenav mode="side" [opened]="true"  [style.width]="isSidenavOpen ? '200px' : '50px'">
+      <mat-nav-list>
+        <a mat-list-item 
+           *ngFor="let item of menuItems" 
+           [routerLink]="item.route"
+           routerLinkActive="active-link"
+           #rla="routerLinkActive"
+           [activated]="rla.isActive">
+           <i matListItemIcon [ngClass]="['fa-solid', item.icon]"></i>
+          <span matListItemTitle>{{ item.label }}</span>
+        </a>
+      </mat-nav-list> 
+    </mat-sidenav>
+  
+    <mat-sidenav-content [style.margin-left]="isSidenavOpen ? '200px' : '50px'">
+      <div class="contain">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  </section>
+  
+  
+  
+  
+  <section *ngIf="!service.isLoggedIn()">
+    <router-outlet></router-outlet>
+  </section>
+  
+  

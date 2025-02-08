@@ -1,0 +1,17 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+mat-sidenav-container{
+    min-height: calc(100vh - 64px);
+}
+.example-spacer {
+    flex: 1 1 auto !important;
+  }
+
+ .iconimg{
+    width: 35px !important;
+ } 
+

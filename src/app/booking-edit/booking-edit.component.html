@@ -1,0 +1,133 @@
+<div class="container-fluid">
+    <div class="row p-3">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card ">
+                        <div class="card-body">
+                          <h4>SENDER INFORMATION</h4>
+                          <input type="text" [(ngModel)]="model.FromPlace" readonly class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2 " placeholder="From Place" required />
+                          <input type="text" [(ngModel)]="model.FromName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2 " placeholder="Name" required />
+                          <input type="text" [(ngModel)]="model.FromPhoneNo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2" placeholder="Phone No." required />
+                          <input type="text" [(ngModel)]="model.FromGSTNo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2" placeholder="GST No." required />
+                        </div>
+                      </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card ">
+                      <div class="card-body">
+                        <h4>RECIEVER INFORMATION</h4>
+                        <input type="text" [ngbTypeahead]="Branchsearch" [(ngModel)]="model.ToPlace" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2 " placeholder="To Place" required />
+                        <input type="text" [(ngModel)]="model.ToName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2 " placeholder="Name" required />
+                        <input type="text" [(ngModel)]="model.ToPhoneNo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2" placeholder="Phone No." required />
+                        <input type="text" [(ngModel)]="model.ToGSTNo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2" placeholder="GST No." required />
+                      </div>
+                    </div>
+              </div>
+                
+                <div class="col-md-12 py-3">
+                  <button class="button-1 mb-2" (click)="AddRow()">
+                    <i class="fa-solid fa-plus"></i>  ADD ITEM
+                  </button>
+
+
+
+                    <table class="table card p-5">
+                        <thead>
+                          <tr>
+                            <th scope="col" style="width: 20%;">Article</th>
+                            <th scope="col" style="width: 20%;">Description</th>
+                            <th scope="col"  style="width: 10%;">Rate</th>
+                            <th scope="col"  style="width: 10%;">Qty</th>
+                            <th scope="col"  style="width: 10%;">Disc.</th>
+                            <th scope="col"  style="width: 15%;">Frieght Amount</th>
+                            <th scope="col"  style="width: 5%;">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr  *ngFor="let item of model.BookingDet;let i = index">
+                            <td><input type="text" [ngbTypeahead]="search" (selectItem)="onSelect($event,i)"  [(ngModel)]="item.Article" class="form-control form-control-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg"></td>
+                            <td><input type="text" [(ngModel)]="item.Description" class="form-control form-control-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg"></td>
+                            <td><input type="text" [(ngModel)]="item.Rate" readonly class="form-control form-control-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg"></td>
+                            <td><input type="text" [(ngModel)]="item.Quantity" (blur)="onBlurQty(i)" class="form-control form-control-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg"></td>
+                            <td><input type="text" [(ngModel)]="item.Discount" class="form-control form-control-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg"></td>
+                            <td><input type="text" [(ngModel)]="item.FreightAmount" readonly (blur)="calculateTotalAmount()" class="form-control form-control-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg"></td>
+                            <td class="text-center"><i class="fa-solid fa-trash"></i></td>
+                         </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4">
+          <div class="col-md-12 px-3">
+            <div class="card ">
+                <div class="card-body">
+                    
+                  <div class="contain d-flex align-items-center justify-content-between">
+                    <span>{{model.DocNo}}</span>
+                    <span>{{ currentDate | date:'fullDate' }}</span>
+                  </div>
+                   
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="switch">
+                          <input id="switch-y" [(ngModel)]="model.PaymentMode" name="tripple" type="radio" value="Pay" class="switch-input" />
+                          <label for="switch-y" class="switch-label switch-label-y">Pay</label>
+                          <input id="switch-i" [(ngModel)]="model.PaymentMode" name="tripple" type="radio" value="PaidTo" class="switch-input" checked />
+                          <label for="switch-i" class="switch-label switch-label-i">Paid To</label>
+                          <input id="switch-n" [(ngModel)]="model.PaymentMode" name="tripple" type="radio" value="Credit" class="switch-input" />
+                          <label for="switch-n" class="switch-label switch-label-n">Credit</label>
+                          <span class="switch-selector"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                 
+                </div>
+              </div>
+        </div>
+        <div class="col-md-12 mt-3">
+          <div class="card ">
+              <div class="card-body">
+                <h4 >CHAREGES SUMMARY</h4>
+                <h5 class=" text-gray-900">Frieght Amount: <span>{{model.TotalAmount }}</span></h5>
+                <h5 class=" text-gray-900">GST: <span>0</span></h5>
+                <h5 class=" text-gray-900">Total Amount: <span>{{model.TotalAmount }}</span> </h5>
+
+              <div class="btn-con d-flex align-items-center justify-content-between">
+                <button class="button" (click)="OnSubmit()">
+                  <i class="fa-solid fa-truck"></i> Book Parcel
+                </button>
+                <button>
+                  <i class="fa-solid fa-brush clear-icon "></i> Clear
+                </button>
+              </div>
+              </div>
+            </div>
+      </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade z-3 position-absolute p-5 rounded-3"  id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
