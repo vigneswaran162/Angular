@@ -25,9 +25,11 @@ export class LoginService {
     this.router.navigate([''])
   }
 
-  getuserdata(){
-   return JSON.parse(localStorage.getItem('currentUser') || '')
-  }
+  getuserdata() {
+    const userData = localStorage.getItem("currentUser");
+    return userData ? JSON.parse(userData) : null;
+}
+
 
   getToken(): string | null {
     
