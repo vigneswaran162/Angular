@@ -23,7 +23,7 @@ export class BookingPracelService {
     return resp;
   }
   async GetBranchCode(BranchCode: string) {
-    this.APIUrl = this.url + 'GetBranchCode?BranchCode='+BranchCode;
+    this.APIUrl = this.verclurl + 'GetBranchCode?BranchCode='+BranchCode;
     let resp = await this.service.get(this.APIUrl).toPromise();
     return resp;
   }
