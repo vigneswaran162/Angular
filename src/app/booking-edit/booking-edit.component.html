@@ -1,5 +1,9 @@
 <div class="container-fluid">
     <div class="row p-3">
+         <div class="col-md-12">
+           <h2>BOOK PRACEL</h2>
+         </div>
+
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-6">
@@ -8,7 +12,7 @@
                           <h4>SENDER INFORMATION</h4>
                           <input type="text" [(ngModel)]="model.FromPlace" readonly class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2 " placeholder="From Place" required />
                           <input type="text" [(ngModel)]="model.FromName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2 " placeholder="Name" required />
-                          <input type="text" [(ngModel)]="model.FromPhoneNo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2" placeholder="Phone No." required />
+                          <input type="text" pattern="[0-9]*"  (blur)="OnBlurToPhone($event)"  maxlength="10" minlength="10" [(ngModel)]="model.FromPhoneNo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2" placeholder="Phone No." required />
                           <input type="text" [(ngModel)]="model.FromGSTNo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2" placeholder="GST No." required />
                         </div>
                       </div>
@@ -17,9 +21,10 @@
                   <div class="card ">
                       <div class="card-body">
                         <h4>RECIEVER INFORMATION</h4>
-                        <input type="text" [ngbTypeahead]="Branchsearch" [(ngModel)]="model.ToPlace" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2 " placeholder="To Place" required />
+                        <input type="text"   (selectItem)="onSelectBranch($event)" 
+                        [ngbTypeahead]="Branchsearch" [editable]="false" [(ngModel)]="model.ToPlace" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2 " placeholder="To Place" required />
                         <input type="text" [(ngModel)]="model.ToName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2 " placeholder="Name" required />
-                        <input type="text" [(ngModel)]="model.ToPhoneNo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2" placeholder="Phone No." required />
+                        <input type="text" pattern="[0-9]*" (blur)="OnBlurFromPhone($event)" maxlength="10" minlength="10" [(ngModel)]="model.ToPhoneNo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2" placeholder="Phone No." required />
                         <input type="text" [(ngModel)]="model.ToGSTNo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-1.5 mb-2" placeholder="GST No." required />
                       </div>
                     </div>
@@ -48,9 +53,9 @@
                           <tr  *ngFor="let item of model.BookingDet;let i = index">
                             <td><input type="text" [ngbTypeahead]="search" (selectItem)="onSelect($event,i)"  [(ngModel)]="item.Article" class="form-control form-control-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg"></td>
                             <td><input type="text" [(ngModel)]="item.Description" class="form-control form-control-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg"></td>
-                            <td><input type="text" [(ngModel)]="item.Rate" readonly class="form-control form-control-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg"></td>
-                            <td><input type="text" [(ngModel)]="item.Quantity" (blur)="onBlurQty(i)" class="form-control form-control-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg"></td>
-                            <td><input type="text" [(ngModel)]="item.Discount" class="form-control form-control-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg"></td>
+                            <td><input type="text"    [(ngModel)]="item.Rate" readonly class="form-control form-control-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg"></td>
+                            <td><input type="text" pattern="[0-9]*"  (blur)="OnBlurQuan($event,i)" maxlength="2" [(ngModel)]="item.Quantity" (blur)="onBlurQty(i)" class="form-control form-control-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg"></td>
+                            <td><input type="text"pattern="[0-9]*" (blur)="OnBlurDis($event,i)" maxlength="2"  [(ngModel)]="item.Discount" class="form-control form-control-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg"></td>
                             <td><input type="text" [(ngModel)]="item.FreightAmount" readonly (blur)="calculateTotalAmount()" class="form-control form-control-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg"></td>
                             <td class="text-center"><i class="fa-solid fa-trash"></i></td>
                          </tr>
@@ -98,7 +103,7 @@
                 <h5 class=" text-gray-900">Total Amount: <span>{{model.TotalAmount }}</span> </h5>
 
               <div class="btn-con d-flex align-items-center justify-content-between">
-                <button class="button" (click)="OnSubmit()">
+                <button class="button" (click)="OnSubmit($event)">
                   <i class="fa-solid fa-truck"></i> Book Parcel
                 </button>
                 <button>

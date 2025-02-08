@@ -1,6 +1,8 @@
 export class BookingPracelModel{
     DocNo: any ;
     DocDate:string;
+    FormBranchCode:string;
+    ToBranchCode:string;
     PaymentMode:string;
     TotalAmount:number;
     FreightAmount:number;
@@ -21,6 +23,7 @@ export class BookingPracelModel{
     voidedBy: string;
     BookingDet:BookingPracelDetModel[]
     OpsType:string;
+    Status:string;
 }
 
 export class BookingPracelDetModel{
@@ -43,4 +46,7 @@ export class BookingPracelDetModel{
     createdBy: string;
     updatedBy: string;
     voidedBy: string;
+    FormBranchCode:string;
+    ToBranchCode:string;
+    Status:string;
 }

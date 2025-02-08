@@ -5,6 +5,12 @@ import { Observable } from 'rxjs';
 import { LoginService } from '../services/login.service';
 import { BookingPracelDetModel, BookingPracelModel } from '../model/BookingPracelModel';
 import { BookingPracelService } from '../services/booking-pracel.service';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
+import { NgxSpinnerService } from "ngx-spinner";
+
+
+
 @Component({
   selector: 'app-booking-edit',
   templateUrl: './booking-edit.component.html',
@@ -21,13 +27,16 @@ export class BookingEditComponent implements OnInit  {
   Branchsearch: any;
   user:any;
 
-  constructor( private service:BookingPracelService,private appservice:LoginService
+  constructor( private service:BookingPracelService,private appservice:LoginService, private toast:ToastrService,
+    private spinner:NgxSpinnerService
+
 
   ) {
     this.user = this.appservice.getuserdata()
    }
 
   async ngOnInit() {
+    this.spinner.show()
     this.currentDate = new Date();
     this.model = new BookingPracelModel()
     this.model.PaymentMode ='Pay'
@@ -35,14 +44,18 @@ export class BookingEditComponent implements OnInit  {
     await this.GetBranchCode()
     await this.GetArticle()
     this.AddRow()
-    // await this.GetDocNo()
+    this.model.DocNo='123432222'
+    await this.GetDocNo()
     this.model.FromPlace = this.user.BranchName+'-->'+this.user.District
+    this.spinner.hide()
  
   }
 
   AddRow() {
+    if(this.AddRowValidation()==true){
     let obj = new BookingPracelDetModel()
     this.model.BookingDet.push(obj)
+    }
   }
 
 
@@ -60,13 +73,13 @@ export class BookingEditComponent implements OnInit  {
     mod.ToName = this.model.ToName;
     mod.ToGSTNo = this.model.ToGSTNo;
     mod.ToPlace = this.model.ToPlace;
-    mod.ToPhoneNo = this.model.ToPhoneNo
+    mod.ToPhoneNo = this.model.ToPhoneNo;
+    mod.FormBranchCode = this.user.BrachCode;
+    mod.ToBranchCode = this.model.ToBranchCode;
     mod.Cancel = 'N',
-      mod.Void = 'N',
-
-      mod.BookingDet = [];
-
-
+    mod.Void = 'N',
+    mod.Status = 'loaded'
+    mod.BookingDet = [];
     for (let i = 0; i < this.model.BookingDet.length; i++) {
       let obj = {
         DocNo: this.model.DocNo,
@@ -87,7 +100,10 @@ export class BookingEditComponent implements OnInit  {
         createdBy: '',
         updatedBy: '',
         voidedBy: '',
-        Rate:''
+        Rate:'',
+        Status:'loaded',
+        FormBranchCode:this.user.BranchCode,
+        ToBranchCode:this.model.ToBranchCode
       }
       mod.BookingDet.push(obj)
 
@@ -96,25 +112,46 @@ export class BookingEditComponent implements OnInit  {
   }
 
 
-async  OnSubmit(){
+async  OnSubmit(event:any){
+
+  if(this.formvalidation()== true){
+    event.target.disabled = true;
+
     const editmod = this.preparemodel();
     editmod.OpsType = "S";
     await this.CRUD(editmod)
+    event.target.disabled = false;
+
+  }
   }
 
 
 
   async CRUD(_model:BookingPracelModel) {
-  
+    this.spinner.show()
+
     let response = await this.service.CRUD(_model).catch((err) => {
-      alert(err.message)
+        this.toast.warning(err.message)
+        this.spinner.hide()
+
     });
    if(response != undefined){
     if (response.Boolval == true) {
-     alert('SAVED SUCESSFULLY')
+      Swal.fire({
+        title: 'Sucessfully Booked Pracel ...',
+        timer: 2000,
+        icon: 'success',
+        showCancelButton: false,
+        showConfirmButton: false,
+        customClass: {
+          icon: 'custom-icon-class' 
+        }
+      })
+      this.spinner.hide()
      this.ngOnInit()
     } else {
-      alert(response.returnerror)
+      this.toast.error(response.returnerror,'')
+      this.spinner.hide()
     }
    }
   }
@@ -126,21 +163,23 @@ async  OnSubmit(){
   }
 
   async GetDocNo (){
-    let response:any = await this.service.GetDocNo(this.user.UserCode,this.user.BranchCode).catch(err=>{
-      alert(err.message)
+    let response:any = await this.service.GetDocNo().catch(err=>{
+        this.toast.warning(err.message)
     })
     if(response != undefined){
-      if(response.Boolval == true){
+
          this.model.DocNo =''
-        this.model.DocNo = response.data.DOCNO;
+        this.model.DocNo = 'BN'+'-'+this.user.UserCode+'-'+this.user.BranchCode+'-'+response.count;
       }else{
-        alert(response.returnerror)
+        this.toast.error(response.error,'')
+
       }
-    }
+        
+    
   }
   async GetArticle (){
     let response:any = await this.service.GetArticelAll().catch(err=>{
-      alert(err.message)
+        this.toast.warning(err.message)
     })
     if(response != undefined){
       if(response.Boolval == true){
@@ -158,7 +197,7 @@ async  OnSubmit(){
             )
           );
       }else{
-        alert(response.returnerror)
+        this.toast.error(response.returnerror,'')
       }
     }
   }
@@ -167,11 +206,11 @@ async  OnSubmit(){
 
   async GetBranchCode (){
     let response:any = await this.service.GetBranchCode(this.user.BranchCode).catch(err=>{
-      alert(err.message)
+        this.toast.warning(err.message)
     })
     if(response != undefined){
-      if(response.Boolval == true){
-        this.BranchDet = response.data;
+    
+        this.BranchDet = response;
 
 
         this.Branchsearch = (text$: Observable<string>): Observable<string[]> =>
@@ -184,9 +223,11 @@ async  OnSubmit(){
                 : this.BranchDet.map((i:any) => i.SearchField).filter((name:any) => name.toLowerCase().includes(term.toLowerCase())).slice(0, 10)
             )
           );
-      }else{
-        alert(response.returnerror)
-      }
+    
+    }
+    else{
+      this.toast.error(response.returnerror,'')
+
     }
   }
 
@@ -200,5 +241,110 @@ async  OnSubmit(){
     this.model.BookingDet[i].FreightAmount = Number(this.model.BookingDet[i].Rate) * Number(this.model.BookingDet[i].Quantity)
     this,this.calculateTotalAmount()
   }
+
+  onSelectBranch(event:any){
+    let filterddata = this.BranchDet.find((item:any)=>item.SearchField == event.item)
+    this.model.ToBranchCode = filterddata.BranchCode
+  }
+
+
+
+
+  formvalidation(){
+    if(this.model.DocNo == "" || this.model.DocNo == null || this.model.DocNo == undefined){
+      this.toast.info('Doc No  Cannot Be Blank','')
+      return false
+    }
+    
+    if(this.model.FromPlace ==  "" || this.model.FromPlace == null || this.model.FromPlace == undefined){
+      this.toast.info('From PlaceCannot Be Blank','')
+      return false
+    }
+    if(this.model.ToPlace ==  "" || this.model.ToPlace == null || this.model.ToPlace == undefined){
+      this.toast.info('To Place Cannot Be Blank','')
+      return false
+    }
+
+
+    if(this.model.FromName ==  "" || this.model.FromName == null || this.model.FromName == undefined){
+      this.toast.info('From Name Cannot Be Blank','')
+      return false
+    }
+    if(this.model.ToName ==  "" || this.model.ToName == null || this.model.ToName == undefined){
+      this.toast.info('To Name Cannot Be Blank','')
+      return false
+    }
+    if(this.model.FromPhoneNo ==  "" || this.model.FromPhoneNo == null || this.model.FromPhoneNo == undefined){
+      this.toast.info('From PhoneNo Cannot Be Blank','')  
+      return false
+    }
+    if(this.model.ToPhoneNo ==  "" || this.model.ToPhoneNo == null || this.model.ToPhoneNo == undefined){
+      this.toast.info('To PhoneNo Cannot Be Blank','')
+      return false
+    }
+   
+
+
+    return true
+    
+    }
+    
+
+    AddRowValidation() {
+      let rowid = this.model.BookingDet.length - 1;
+      if (rowid >= 0) {
+        if (this.model.BookingDet[rowid].Article == null || this.model.BookingDet[rowid].Article == undefined || this.model.BookingDet[rowid].Article == '') {
+          this.toast.info('Article should not be empty', '');
+          return false;
+        }
+        else if (this.model.BookingDet[rowid].Quantity == null || this.model.BookingDet[rowid].Quantity == undefined || this.model.BookingDet[rowid].Quantity == '') {
+          this.toast.info('Quantity should not be empty','');
+          return false;
+        }
+        else if (this.model.BookingDet[rowid].Quantity == '0' || this.model.BookingDet[rowid].Quantity == '00') {
+          this.toast.info('Quantity 0 should not Accepted','');
+          return false;
+        }
+      }
+      return true
+    }
+
+
+
+
+    OnBlurQuan(event:any,i:any){
+      if(event.target.value != ""){
+        if (!event.target.validity.valid) { 
+          this.model.BookingDet[i].Quantity = '';
+        }
+      }
+  }
+
+  OnBlurDis(event:any,i:any){
+    if(event.target.value != ""){
+      if (!event.target.validity.valid) { 
+        this.model.BookingDet[i].Discount = '';
+      }
+    }
+}
+
+
+OnBlurFromPhone(event:any){
+  if(event.target.value != ""){
+    if (!event.target.validity.valid) { 
+      this.model.FromPhoneNo = '';
+    }
+  }
+}
+
+
+OnBlurToPhone(event:any){
+  if(event.target.value != ""){
+    if (!event.target.validity.valid) { 
+      this.model.ToPhoneNo = '';
+    }
+  }
+}
+
 
 }

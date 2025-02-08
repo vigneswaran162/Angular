@@ -21,6 +21,8 @@ import { BookingListComponent } from './booking-list/booking-list.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
+import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -44,7 +46,13 @@ import { DatePipe } from '@angular/common';
     MatMenuModule,
     NgbModule,
     NgbTypeaheadModule,
-    DatePipe
+    DatePipe,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+      progressBar: true
+    }),
+    NgxSpinnerModule
 
   ],
   providers: [],

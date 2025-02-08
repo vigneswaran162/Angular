@@ -3,11 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashBoardComponent } from './dash-board/dash-board.component';
 import { LoginComponent } from './login/login.component';
 import { BookingEditComponent } from './booking-edit/booking-edit.component';
+import { authGuard } from './services/auth.guard';
 
 const routes: Routes = [
   {
     path:'DashBoard',
-    component:DashBoardComponent
+    component:DashBoardComponent,
+    canActivate: [authGuard]
+
   },
   {
     path:'',
@@ -15,7 +18,9 @@ const routes: Routes = [
   },
   {
     path:'BoookingPracel',
-    component:BookingEditComponent
+    component:BookingEditComponent,
+    canActivate: [authGuard]
+
   }
 ];
 

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +16,8 @@ export class LoginComponent implements OnInit{
   UserPassword:string;
 
 
-  constructor(private router:Router,private  service:LoginService){}
+  constructor(private router:Router,private  service:LoginService ,private toast:ToastrService ,    private spinner:NgxSpinnerService
+  ){}
 ngOnInit(): void {
   
 }
@@ -23,11 +26,12 @@ ngOnInit(): void {
 
   formvalidation(){
     if(this.UserName == '' || this.UserName == undefined || this.UserName == null){
-      alert('UserName Cannot Be Blank')
+      this.toast.info('UserName Cannot Be Blank','')
       return false
     }
     if(this.UserPassword == '' || this.UserPassword == undefined || this.UserPassword == null){
-      alert('UserName Cannot Be Blank')
+      this.toast.info('Password Cannot Be Blank','')
+
       return false
     }
     return true
@@ -36,10 +40,12 @@ ngOnInit(): void {
 
 
   async onSubmit(event:any){
-    event.target.disabled = true;
+    
     if(this.formvalidation()== true){
+      this.spinner.show()
       let response:any = await this.service.Login(this.UserName,this.UserPassword).catch(err=>{
-        alert(err.message)
+        this.toast.warning(err.message)
+        this.spinner.hide()
       })
       if(response != undefined){
         if(response.Boolval == true){
@@ -53,21 +59,22 @@ ngOnInit(): void {
             state: response.userdata[0].state,
             token: response.Token
           };
-  
           localStorage.setItem('currentUser', JSON.stringify(authData));
-  
-          event.target.disabled = false;
-  
+          this.spinner.hide()
           this.router.navigate(['/DashBoard'])
         }else{
-          alert(response.returnerror)
-          event.target.disabled = false;
+          this.toast.error(response.returnerror)
+          this.spinner.hide()
   
         }
     }
   }
   }
   
+
+
+
+
 
 
 }

@@ -15,7 +15,7 @@ export class BookingPracelService {
 
 
 
-  private url:string = 'http://localhost:3000/api/'
+  private url:string = 'http://localhost:8000/'
 
   async GetArticelAll() {
     this.APIUrl = this.verclurl + 'GetArticle';
@@ -27,8 +27,8 @@ export class BookingPracelService {
     let resp = await this.service.get(this.APIUrl).toPromise();
     return resp;
   }
-  async GetDocNo(usercode: string,branchcode:string){
-    this.APIUrl = this.url + 'BookingPracel/GetDocNo?usercode='+usercode+'&branchcode='+branchcode;
+  async GetDocNo(){
+    this.APIUrl = this.url + 'GetDocNo';
     let resp = await this.service.get(this.APIUrl).toPromise();
     return resp;
   }
@@ -48,7 +48,7 @@ export class BookingPracelService {
       headers: headers,
     };
     if (entity.OpsType == 'S'){
-      this.APIUrl =this.url + 'BookingPracel/Insert';
+      this.APIUrl =this.url + 'BoookingInsert';
     }
     if (entity.OpsType == 'U'){
       this.APIUrl =this.url + 'BookingPracel/Update';

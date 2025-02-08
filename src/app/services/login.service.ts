@@ -6,8 +6,14 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class LoginService {
+  userdetail:any;
 
-  constructor(private service:HttpClient,private router:Router) { }
+  constructor(private service:HttpClient,private router:Router) {
+    this.userdetail = JSON.parse(localStorage.getItem('currentUser') || 'null'); 
+    if (this.userdetail === null) {
+      this.router.navigate(['']);
+    }
+   }
 
   private APIUrl: string ;
   private loginurl:string = 'https://backendvercel-brown.vercel.app/'
