@@ -27,7 +27,8 @@ constructor (public service:LoginService){
 }
 
 ngOnInit(): void {
-  
+  this.user = this.service.getuserdata()
+
 }
 
 
