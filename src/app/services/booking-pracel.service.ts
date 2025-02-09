@@ -28,7 +28,7 @@ export class BookingPracelService {
     return resp;
   }
   async GetDocNo(){
-    this.APIUrl = this.url + 'GetDocNo';
+    this.APIUrl = this.verclurl + 'GetDocNo';
     let resp = await this.service.get(this.APIUrl).toPromise();
     return resp;
   }
@@ -48,7 +48,7 @@ export class BookingPracelService {
       headers: headers,
     };
     if (entity.OpsType == 'S'){
-      this.APIUrl =this.url + 'BoookingInsert';
+      this.APIUrl =this.verclurl + 'BoookingInsert';
     }
     if (entity.OpsType == 'U'){
       this.APIUrl =this.url + 'BookingPracel/Update';
