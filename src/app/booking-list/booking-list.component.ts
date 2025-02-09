@@ -25,12 +25,14 @@ export class BookingListComponent implements AfterViewInit {
   dataList: any;
 
   user:any;
-  constructor(private service:BookingPracelService,private appservice:LoginService){}
+  constructor(private service:BookingPracelService,private appservice:LoginService){
+    this.user = this.appservice.getuserdata()
+
+  }
   BookingDet: any;
 
 
   async ngAfterViewInit() {
-    this.user = this.appservice.getuserdata()
     this._el.nativeElement.focus();
     await this.managebooking()
   }
