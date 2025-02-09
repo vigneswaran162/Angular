@@ -25,7 +25,7 @@ export class BookingPracelService {
 
 
   async GetAll() {
-    this.APIUrl = this.url + 'GetAll';
+    this.APIUrl = this.verclurl + 'GetAll';
     let resp = await this.service.get(this.APIUrl).toPromise();
     return resp;
   }
@@ -43,7 +43,7 @@ export class BookingPracelService {
   }
 
   async GetManageBooking(branchcode:string){
-    this.APIUrl = this.url + 'GetManagePracel?BrachCode='+branchcode;
+    this.APIUrl = this.verclurl + 'GetManagePracel?BrachCode='+branchcode;
     let resp = await this.service.get(this.APIUrl).toPromise();
     return resp;
   }
