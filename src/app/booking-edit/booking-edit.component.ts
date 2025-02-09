@@ -35,14 +35,17 @@ export class BookingEditComponent implements OnInit  {
   
   dataSource: any;
   displayedColumns = ['docno','docdate','amount','actions'];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+  // @ViewChild(MatPaginator) paginator: MatPaginator;
+  // @ViewChild(MatSort) sort: MatSort;
+  // @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
   _dataListLength: any;
-  @Input('focuMe') isFocused: boolean;
-  @ViewChild('input') _el: ElementRef;
+  // @Input('focuMe') isFocused: boolean;
+  // @ViewChild('input') _el: ElementRef;
   dataList: any;
 
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
 
   constructor( private service:BookingPracelService,private appservice:LoginService, private toast:ToastrService,
@@ -364,7 +367,7 @@ OnBlurToPhone(event:any){
 
 
  async openModal(template: TemplateRef<void>) {
-    this.modalRef = this.modalService.show(template);
+    this.modalRef = this.modalService.show(template,{ class: 'modal-xl' });
     await this.GetAll()
 
   }
@@ -379,13 +382,20 @@ OnBlurToPhone(event:any){
         this.spinner.hide()
     })
     if(response != undefined){
-         this.dataList = response.data;
-         this.dataSource = new MatTableDataSource(response.data);
-         this.dataSource.paginator = this.paginator;
-         this.dataSource.sort = this.sort;
-         this._dataListLength = response.data.length;
-         this.dataSource.paginator.length = response.data.length;  
-         this.spinner.hide()
+      this.dataList = response.data;
+      this.dataSource = new MatTableDataSource(response.data);
+    
+      if (this.paginator) {
+        this.dataSource.paginator = this.paginator;
+        this.paginator.length = this.dataSource.data.length; 
+      }
+      
+      if (this.sort) {
+        this.dataSource.sort = this.sort;
+      }
+      
+      this._dataListLength = this.dataSource.data.length; 
+      this.spinner.hide();
       }else{
         this.toast.error(response.error,'')
         this.spinner.hide()

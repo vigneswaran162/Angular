@@ -31,6 +31,7 @@ import { ReportComponent } from './report/report.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatSortModule } from '@angular/material/sort';
 
  
 
@@ -70,7 +71,10 @@ import { MatNativeDateModule } from '@angular/material/core';
     }),
     NgxSpinnerModule,
     ModalModule.forRoot(),
-    DropDownListModule
+    DropDownListModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
 
   ],
   providers: [],
