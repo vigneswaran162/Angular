@@ -23,6 +23,16 @@ import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { ReportComponent } from './report/report.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+
+ 
 
 @NgModule({
   declarations: [
@@ -30,15 +40,21 @@ import { NgxSpinnerModule } from "ngx-spinner";
     LoginComponent,
     DashBoardComponent,
     BookingEditComponent,
-    BookingListComponent
+    BookingListComponent,
+    ReportComponent
   ],
   imports: [
     BrowserModule,
+    MatPaginatorModule,
+    MatTableModule,
     BrowserAnimationsModule,
+    MatNativeDateModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
     MatSidenavModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
     MatButtonModule,
     MatIconModule,
     MatToolbarModule,
@@ -52,7 +68,9 @@ import { NgxSpinnerModule } from "ngx-spinner";
       preventDuplicates: true,
       progressBar: true
     }),
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    ModalModule.forRoot(),
+    DropDownListModule
 
   ],
   providers: [],

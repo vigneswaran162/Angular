@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -8,6 +8,7 @@ import { BookingPracelService } from '../services/booking-pracel.service';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from "ngx-spinner";
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 
 
@@ -27,8 +28,12 @@ export class BookingEditComponent implements OnInit  {
   Branchsearch: any;
   user:any;
 
+    modalRef?: BsModalRef;
+  BookingListDet: any;
+  
+
   constructor( private service:BookingPracelService,private appservice:LoginService, private toast:ToastrService,
-    private spinner:NgxSpinnerService
+    private spinner:NgxSpinnerService,private modalService:BsModalService
 
 
   ) {
@@ -41,6 +46,7 @@ export class BookingEditComponent implements OnInit  {
     this.model = new BookingPracelModel()
     this.model.PaymentMode ='Pay'
     this.model.BookingDet = []
+    await this.GetAll()
     await this.GetBranchCode()
     await this.GetArticle()
     this.AddRow()
@@ -174,8 +180,6 @@ async  OnSubmit(event:any){
         this.toast.error(response.error,'')
 
       }
-        
-    
   }
   async GetArticle (){
     let response:any = await this.service.GetArticelAll().catch(err=>{
@@ -347,4 +351,22 @@ OnBlurToPhone(event:any){
 }
 
 
+ openModal(template: TemplateRef<void>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+
+
+
+  async GetAll (){
+    let response:any = await this.service.GetAll().catch(err=>{
+        this.toast.warning(err.message)
+    })
+    if(response != undefined){
+         this.BookingListDet = response
+      }else{
+        this.toast.error(response.error,'')
+
+      }
+  }
 }

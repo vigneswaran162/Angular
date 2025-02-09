@@ -16,7 +16,9 @@ export class AppComponent implements OnInit {
   menuItems = [
     { icon: 'fa-chart-line', label: 'Pracel', route: '/DashBoard' },
     { icon: 'fa-truck', label: 'Book Pracel', route: '/BoookingPracel' },
-    { icon: 'fa-truck-ramp-box', label: 'Manage Pracel', route: '/Reports' },
+    { icon: 'fa-truck-ramp-box', label: 'Manage Pracel', route: '/ManagePracel' },
+    { icon: 'fa-table', label: 'Report', route: '/Report' },
+
 
   ];
 

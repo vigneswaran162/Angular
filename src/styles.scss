@@ -15,3 +15,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 @import 'ngx-toastr/toastr';
 
+
+/* Importing Bootstrap SCSS file. */
+@import "./node_modules/bootstrap/scss/bootstrap";
