@@ -373,6 +373,7 @@ OnBlurToPhone(event:any){
 
 
   async GetAll (){
+    this.spinner.show()
     let response:any = await this.service.GetAll().catch(err=>{
         this.toast.warning(err.message)
         this.spinner.hide()
