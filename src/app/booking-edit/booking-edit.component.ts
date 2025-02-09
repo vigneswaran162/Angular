@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -11,7 +11,15 @@ import { NgxSpinnerService } from "ngx-spinner";
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-
+import {
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
+} from '@angular/material/dialog';
+import { BookingListComponent } from '../booking-list/booking-list.component';
 
 @Component({
   selector: 'app-booking-edit',
@@ -20,7 +28,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 })
 export class BookingEditComponent implements OnInit  {
   
-
+  
   currentDate = new Date();
   model: BookingPracelModel;
   ArticleDet:any;
@@ -30,16 +38,7 @@ export class BookingEditComponent implements OnInit  {
   user:any;
 
   BookingListDet: any;
-  
-  dataSource: any;
-  displayedColumns = ['docno','docdate','amount','actions'];
-  // @ViewChild(MatPaginator) paginator: MatPaginator;
-  // @ViewChild(MatSort) sort: MatSort;
-  // @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
-  _dataListLength: any;
-  // @Input('focuMe') isFocused: boolean;
-  // @ViewChild('input') _el: ElementRef;
-  dataList: any;
+
 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -47,7 +46,7 @@ export class BookingEditComponent implements OnInit  {
 
 
   constructor( private service:BookingPracelService,private appservice:LoginService, private toast:ToastrService,
-    private spinner:NgxSpinnerService
+    private spinner:NgxSpinnerService, private dialog: MatDialog
 
 
   ) {
@@ -369,31 +368,14 @@ OnBlurToPhone(event:any){
 
 
 
-  async GetAll (){
-    this.spinner.show()
-    let response:any = await this.service.GetAll().catch(err=>{
-        this.toast.warning(err.message)
-        this.spinner.hide()
-    })
-    if(response != undefined){
-      this.dataList = response.data;
-      this.dataSource = new MatTableDataSource(response.data);
-    
-      if (this.paginator) {
-        this.dataSource.paginator = this.paginator;
-        this.paginator.length = this.dataSource.data.length; 
-      }
-      
-      if (this.sort) {
-        this.dataSource.sort = this.sort;
-      }
-      
-      this._dataListLength = this.dataSource.data.length; 
-      this.spinner.hide();
-      }else{
-        this.toast.error(response.error,'')
-        this.spinner.hide()
 
-      }
+
+  openDialog(): void {
+    this.dialog.open(BookingListComponent, {
+      width: '60vw',
+      height:'60vh'
+    });
   }
 }
+
+

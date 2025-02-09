@@ -27,8 +27,9 @@ export class AppComponent implements OnInit {
 constructor (public service:LoginService){
 }
 
-ngOnInit(): void {
-
+async ngOnInit() {
+   let resp = await this.service.isLoggedIn()
+  
 }
 
 

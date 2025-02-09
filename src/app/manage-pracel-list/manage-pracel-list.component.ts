@@ -5,16 +5,16 @@ import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 
+
 @Component({
-  selector: 'app-booking-list',
-  templateUrl: './booking-list.component.html',
-  styleUrls: ['./booking-list.component.scss']
+  selector: 'app-manage-pracel-list',
+  standalone: true,
+  imports: [],
+  templateUrl: './manage-pracel-list.component.html',
+  styleUrl: './manage-pracel-list.component.scss'
 })
-export class BookingListComponent implements AfterViewInit {
-
-
-  dataSource: any;
-  _formName = 'ADD PRODUCTS LIST'
+export class ManagePracelListComponent implements AfterViewInit {
+   dataSource: any;
   displayedColumns = ['docno','docdate','to','pay','amount','actions'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -46,7 +46,7 @@ export class BookingListComponent implements AfterViewInit {
   }
 
   async managebooking(){
-    let response:any = await this.service.GetAll().catch(err=>{
+    let response:any = await this.service.GetManageBooking(this.user.BranchCode).catch(err=>{
       alert(err.message)
     })
     if(response != undefined){
@@ -66,5 +66,3 @@ export class BookingListComponent implements AfterViewInit {
 
   }
 }
-
-

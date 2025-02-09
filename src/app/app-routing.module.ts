@@ -6,6 +6,8 @@ import { BookingEditComponent } from './booking-edit/booking-edit.component';
 import { authGuard } from './services/auth.guard';
 import { BookingListComponent } from './booking-list/booking-list.component';
 import { ReportComponent } from './report/report.component';
+import { NavabarComponent } from './navabar/navabar.component';
+import { ManagePracelListComponent } from './manage-pracel-list/manage-pracel-list.component';
 
 const routes: Routes = [
   {
@@ -18,6 +20,11 @@ const routes: Routes = [
     path:'',
     component:LoginComponent
   },
+
+  {
+    path:'Navbar',
+    component:NavabarComponent
+  },
   {
     path:'BoookingPracel',
     component:BookingEditComponent,
@@ -25,7 +32,7 @@ const routes: Routes = [
 
   },{
     path:'ManagePracel',
-    component:BookingListComponent
+    component:ManagePracelListComponent
   },{
     path:'Report',
     component:ReportComponent

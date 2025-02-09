@@ -1,5 +1,4 @@
-
-<nav class="navbar  navbar-dark text-dark bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Navbar</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,32 +34,3 @@
       </div>
     </div>
   </nav>
-
-
-<div class="container">
-    <div class="row p-3 d-flex align-items-center justify-content-between">
-        <div class="col-md-12">
-           <h2>BOOKING  STATEMENT REPORT</h2>
-        </div>
-        <div class="col-md-4">
-            <mat-form-field>
-                <mat-label>Enter a date range</mat-label>
-                <mat-date-range-input [rangePicker]="picker">
-                  <input matStartDate placeholder="Start date">
-                  <input matEndDate placeholder="End date">
-                </mat-date-range-input>
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-date-range-picker #picker></mat-date-range-picker>
-              </mat-form-field>
-        </div>
-        <div class="col-md-3 d-flex align-items-center justify-content-center">
-            <button mat-raised-button color="primary" class="mx-2">Get Report</button>
-                <button mat-raised-button class="export" [matMenuTriggerFor]="menu">Export <i class="fa-solid fa-angle-down"></i></button>
-                <mat-menu #menu="matMenu">
-                  <button mat-menu-item><i class="fa-solid fa-file-pdf"></i> PDF</button>
-                  <button mat-menu-item ><i class="fa-solid fa-file-excel"></i> EXCEL</button>
-                </mat-menu>
-              
-        </div>
-    </div>
-</div>
