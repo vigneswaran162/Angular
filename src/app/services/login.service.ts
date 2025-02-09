@@ -44,6 +44,6 @@ export class LoginService {
   }
 
   isLoggedIn(): boolean {
-    return  !!this.getToken();
+    return  !!this.getToken() || false;
   }
 }
