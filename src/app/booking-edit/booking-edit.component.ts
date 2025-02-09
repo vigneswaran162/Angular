@@ -378,12 +378,12 @@ OnBlurToPhone(event:any){
         this.spinner.hide()
     })
     if(response != undefined){
-         this.dataList = response;
-         this.dataSource = new MatTableDataSource(response);
+         this.dataList = response.data;
+         this.dataSource = new MatTableDataSource(response.data);
          this.dataSource.paginator = this.paginator;
          this.dataSource.sort = this.sort;
-         this._dataListLength = response.length;
-         this.dataSource.paginator.length = response.length;  
+         this._dataListLength = response.data.length;
+         this.dataSource.paginator.length = response.data.length;  
          this.spinner.hide()
       }else{
         this.toast.error(response.error,'')
