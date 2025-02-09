@@ -53,8 +53,8 @@ export class BookingListComponent implements AfterViewInit {
         this.dataSource = new MatTableDataSource(response.data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        this._dataListLength = response.length;
-        this.dataSource.paginator.length = response.length;      }else{
+        this._dataListLength = response.data.length;
+        this.dataSource.paginator.length = response.data.length;      }else{
         alert(response.returnerror)
       }
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -9,7 +9,9 @@ import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from "ngx-spinner";
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 
 
 @Component({
@@ -31,6 +33,17 @@ export class BookingEditComponent implements OnInit  {
     modalRef?: BsModalRef;
   BookingListDet: any;
   
+  dataSource: any;
+  displayedColumns = ['docno','docdate','amount','actions'];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+  _dataListLength: any;
+  @Input('focuMe') isFocused: boolean;
+  @ViewChild('input') _el: ElementRef;
+  dataList: any;
+
+
 
   constructor( private service:BookingPracelService,private appservice:LoginService, private toast:ToastrService,
     private spinner:NgxSpinnerService,private modalService:BsModalService
@@ -46,7 +59,6 @@ export class BookingEditComponent implements OnInit  {
     this.model = new BookingPracelModel()
     this.model.PaymentMode ='Pay'
     this.model.BookingDet = []
-    await this.GetAll()
     await this.GetBranchCode()
     await this.GetArticle()
     this.AddRow()
@@ -351,8 +363,10 @@ OnBlurToPhone(event:any){
 }
 
 
- openModal(template: TemplateRef<void>) {
+ async openModal(template: TemplateRef<void>) {
     this.modalRef = this.modalService.show(template);
+    await this.GetAll()
+
   }
 
 
@@ -361,11 +375,19 @@ OnBlurToPhone(event:any){
   async GetAll (){
     let response:any = await this.service.GetAll().catch(err=>{
         this.toast.warning(err.message)
+        this.spinner.hide()
     })
     if(response != undefined){
-         this.BookingListDet = response
+         this.dataList = response;
+         this.dataSource = new MatTableDataSource(response);
+         this.dataSource.paginator = this.paginator;
+         this.dataSource.sort = this.sort;
+         this._dataListLength = response.length;
+         this.dataSource.paginator.length = response.length;  
+         this.spinner.hide()
       }else{
         this.toast.error(response.error,'')
+        this.spinner.hide()
 
       }
   }
