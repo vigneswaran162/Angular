@@ -18,8 +18,8 @@ import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
 import { BookingEditComponent } from './booking-edit/booking-edit.component';
 import { BookingListComponent } from './booking-list/booking-list.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+// import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
@@ -59,8 +59,8 @@ import { MatSortModule } from '@angular/material/sort';
     MatToolbarModule,
     MatListModule,
     MatMenuModule,
-    NgbModule,
-    NgbTypeaheadModule,
+    // NgbModule,
+    // NgbTypeaheadModule,
     DatePipe,
     ToastrModule.forRoot({
       positionClass: 'toast-top-right',
