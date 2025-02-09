@@ -23,11 +23,9 @@ export class AppComponent implements OnInit {
 
 
 constructor (public service:LoginService){
-  this.user = this.service.getuserdata()
 }
 
 ngOnInit(): void {
-  this.user = this.service.getuserdata()
 
 }
 
