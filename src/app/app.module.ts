@@ -23,8 +23,6 @@ import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
-import { ModalModule } from 'ngx-bootstrap/modal';
-import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { ReportComponent } from './report/report.component';
@@ -70,8 +68,6 @@ import { MatSortModule } from '@angular/material/sort';
       progressBar: true
     }),
     NgxSpinnerModule,
-    ModalModule.forRoot(),
-    DropDownListModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule

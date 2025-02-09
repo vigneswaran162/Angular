@@ -8,7 +8,6 @@ import { BookingPracelService } from '../services/booking-pracel.service';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from "ngx-spinner";
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -30,7 +29,6 @@ export class BookingEditComponent implements OnInit  {
   Branchsearch: any;
   user:any;
 
-    modalRef?: BsModalRef;
   BookingListDet: any;
   
   dataSource: any;
@@ -49,7 +47,7 @@ export class BookingEditComponent implements OnInit  {
 
 
   constructor( private service:BookingPracelService,private appservice:LoginService, private toast:ToastrService,
-    private spinner:NgxSpinnerService,private modalService:BsModalService
+    private spinner:NgxSpinnerService
 
 
   ) {
@@ -366,11 +364,7 @@ OnBlurToPhone(event:any){
 }
 
 
- async openModal(template: TemplateRef<void>) {
-    this.modalRef = this.modalService.show(template,{ class: 'modal-xl' });
-    await this.GetAll()
 
-  }
 
 
 
