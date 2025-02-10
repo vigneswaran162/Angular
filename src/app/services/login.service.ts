@@ -28,7 +28,7 @@ export class LoginService {
 
   logout() {
     localStorage.removeItem('currentUser');
-    this.router.navigate([''])
+    this.router.navigate(['/login'])
   }
 
   getuserdata() {
@@ -44,6 +44,6 @@ export class LoginService {
   }
 
   isLoggedIn(): boolean {
-    return  !!this.getToken() || false;
+    return  !!this.getToken();
   }
 }

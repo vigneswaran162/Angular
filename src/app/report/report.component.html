@@ -1,42 +1,3 @@
-
-<nav class="navbar  navbar-dark text-dark bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-          </li>
-        </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-      </div>
-    </div>
-  </nav>
-
-
 <div class="container">
     <div class="row p-3 d-flex align-items-center justify-content-between">
         <div class="col-md-12">
@@ -46,21 +7,56 @@
             <mat-form-field>
                 <mat-label>Enter a date range</mat-label>
                 <mat-date-range-input [rangePicker]="picker">
-                  <input matStartDate placeholder="Start date">
-                  <input matEndDate placeholder="End date">
+                  <input matStartDate placeholder="Start date"  [(ngModel)]="fromDate">
+                  <input matEndDate placeholder="End date"   [(ngModel)]="todate">
                 </mat-date-range-input>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
               </mat-form-field>
         </div>
         <div class="col-md-3 d-flex align-items-center justify-content-center">
-            <button mat-raised-button color="primary" class="mx-2">Get Report</button>
+            <button mat-raised-button color="primary" class="mx-2" (click)="GetReport('Report')">Get Report</button>
                 <button mat-raised-button class="export" [matMenuTriggerFor]="menu">Export <i class="fa-solid fa-angle-down"></i></button>
                 <mat-menu #menu="matMenu">
-                  <button mat-menu-item><i class="fa-solid fa-file-pdf"></i> PDF</button>
+                  <button mat-menu-item  (click)="GetReport('pdf')"><i class="fa-solid fa-file-pdf"></i> PDF</button>
                   <button mat-menu-item ><i class="fa-solid fa-file-excel"></i> EXCEL</button>
                 </mat-menu>
               
+        </div>
+
+
+        <div class="col-md-12">
+          <table class="table">
+            <thead>
+              <tr class="table-dark">
+                <th scope="col">DocNo</th>
+                <th scope="col">DocDate</th>
+                <th scope="col">From BranchCode</th>
+                <th scope="col">To BranchCode</th>
+                <th scope="col">Status</th>
+                <th scope="col">PaymentMode</th>
+                <th scope="col">Article</th>
+                <th scope="col">Item Value</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of BookingDet;let i = index">
+                  <td>{{item.DocNo}}</td>
+                  <td>{{item.DocDate}}</td>
+                  <td>{{item.FormBranchCode}}</td>
+                  <td>{{item.ToBranchCode}}</td>
+                  <td>{{item.Status}}</td>
+                  <td>{{item.PaymentMode}}</td>
+                  <td>{{item.Article}}</td>
+                  <td>{{item.ItemValue}}</td>
+                  <td>{{item.Quantity}}</td>
+                  <td>{{item.FreightAmount}}</td>
+              </tr>
+             
+            </tbody>
+          </table>
         </div>
     </div>
 </div>

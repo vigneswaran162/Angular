@@ -29,6 +29,7 @@ constructor (public service:LoginService){
 
 async ngOnInit() {
    let resp = await this.service.isLoggedIn()
+   console.log(resp,'hello')
   
 }
 

@@ -17,13 +17,8 @@ const routes: Routes = [
 
   },
   {
-    path:'',
+    path:'login',
     component:LoginComponent
-  },
-
-  {
-    path:'Navbar',
-    component:NavabarComponent
   },
   {
     path:'BoookingPracel',
@@ -32,10 +27,12 @@ const routes: Routes = [
 
   },{
     path:'ManagePracel',
-    component:ManagePracelListComponent
+    component:ManagePracelListComponent,
+    canActivate: [authGuard]
   },{
     path:'Report',
-    component:ReportComponent
+    component:ReportComponent,
+    canActivate: [authGuard]
   }
 ];
 

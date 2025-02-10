@@ -48,6 +48,14 @@ export class BookingPracelService {
     return resp;
   }
 
+
+
+  async GetReport(FromDate:any,ToDate:any){
+    this.APIUrl = this.url + 'GetReport?FromDate='+FromDate+'&ToDate='+ToDate;
+    let resp = await this.service.get(this.APIUrl).toPromise();
+    return resp;
+  }
+
   async CRUD(entity: { OpsType: string; }) {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',

@@ -22,11 +22,15 @@
     "@angular/router": "^17.3.12",
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.3",
+    "file-saver": "^2.0.5",
+    "jspdf": "^2.5.2",
+    "jspdf-autotable": "^3.8.4",
     "ngx-spinner": "^17.0.0",
     "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.16.0",
     "tslib": "^2.3.0",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.14.10"
   },
   "devDependencies": {
@@ -34,6 +38,7 @@
     "@angular/cli": "^17.3.11",
     "@angular/compiler-cli": "^17.3.12",
     "@angular/localize": "^17.3.12",
+    "@types/file-saver": "^2.0.7",
     "@types/jasmine": "~4.3.0",
     "file-loader": "^6.2.0",
     "jasmine-core": "~4.6.0",
