@@ -19,14 +19,14 @@
                 <button mat-raised-button class="export" [matMenuTriggerFor]="menu">Export <i class="fa-solid fa-angle-down"></i></button>
                 <mat-menu #menu="matMenu">
                   <button mat-menu-item  (click)="GetReport('pdf')"><i class="fa-solid fa-file-pdf"></i> PDF</button>
-                  <button mat-menu-item ><i class="fa-solid fa-file-excel"></i> EXCEL</button>
+                  <button mat-menu-item (click)="GetReport('xlxs')"><i class="fa-solid fa-file-excel"></i> EXCEL</button>
                 </mat-menu>
               
         </div>
 
 
-        <div class="col-md-12 table-container">
-          <table class="table">
+        <div class="col-md-12 table-container" *ngIf="TableReport">
+          <table class="table table-responsive">
             <thead>
               <tr class="table-dark">
                 <th scope="col">DocNo</th>

@@ -19,11 +19,11 @@ export class ReportComponent implements OnInit {
   fromDate:any;
   todate:any;
   BookingDet: any;
-
+  TableReport:boolean = false
   constructor (private service:BookingPracelService  ,private toast:ToastrService){}
 
   ngOnInit(): void {
-    
+    this.TableReport = false
   }
 
 
@@ -50,8 +50,13 @@ export class ReportComponent implements OnInit {
   if(response != undefined){
       if(response.data.length > 0){
         this.BookingDet = response.data;
-        if(Type=='pdf'){
+        if(Type == 'Report'){
+         this.TableReport = true
+        }
+        else if(Type=='pdf'){
           this.exportToPDF()
+         }else if(Type == 'xlxs'){
+          this.exportToExcel()
          }
 
       }else{
@@ -97,6 +102,15 @@ export class ReportComponent implements OnInit {
   
 
 
+  exportToExcel() {
+    const worksheet = XLSX.utils.json_to_sheet(this.BookingDet);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Report");
+    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+    saveAs(data, "BookingStatemntReport.xlsx");
+  }
+  
   
 
 }
