@@ -2,3 +2,20 @@
     background-color: green !important;
     color: white !important;
 }
+
+.table-container {
+    max-height: 500px !important; 
+    overflow-y: auto; 
+    overflow-x: auto; 
+    border: 1px solid #ccc;
+    padding: 5px;
+  }
+  
+  .table-container thead {
+    position: sticky;
+    top: 0;
+    background: #343a40;
+    color: white;
+    z-index: 10;
+  }
+  
