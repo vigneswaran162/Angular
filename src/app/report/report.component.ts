@@ -48,7 +48,7 @@ export class ReportComponent implements OnInit {
       this.toast.warning(err.message)
   })
   if(response != undefined){
-      if(this.BookingDet.length > 0){
+      if(response.data.length > 0){
         this.BookingDet = response.data;
         if(Type=='pdf'){
           this.exportToPDF()
