@@ -228,18 +228,6 @@ async  OnSubmit(event:any){
     
         this.BranchDet = response;
 
-
-        this.Branchsearch = (text$: Observable<string>): Observable<string[]> =>
-          text$.pipe(
-            debounceTime(100),
-            distinctUntilChanged(),
-            map(term => 
-              term.length < 1 
-                ? [] 
-                : this.BranchDet.map((i:any) => i.SearchField).filter((name:any) => name.toLowerCase().includes(term.toLowerCase())).slice(0, 10)
-            )
-          );
-    
     }
     else{
       this.toast.error(response.returnerror,'')
@@ -259,7 +247,7 @@ async  OnSubmit(event:any){
   }
 
   onSelectBranch(event:any){
-    let filterddata = this.BranchDet.find((item:any)=>item.SearchField == event.item)
+    let filterddata =  event.item
     this.model.ToBranchCode = filterddata.BranchCode
   }
 

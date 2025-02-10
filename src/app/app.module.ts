@@ -31,7 +31,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 
 
 @NgModule({
@@ -60,6 +60,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatToolbarModule,
     MatListModule,
     MatMenuModule,
+    TypeaheadModule.forRoot(),
     // NgbModule,
     // NgbTypeaheadModule,
     DatePipe,
